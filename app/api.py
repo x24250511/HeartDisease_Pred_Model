@@ -47,7 +47,6 @@ async def predict_ecg(file: UploadFile = File(...)):
 
     image = Image.open(file.file)
 
-    # Crop header/footer
     width, height = image.size
     top_crop = int(0.18 * height)
     bottom_crop = int(0.92 * height)
