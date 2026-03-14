@@ -104,6 +104,10 @@ Open browser: http://127.0.0.1:8000/docs
 -   PTB-XL Dataset (PhysioNet)
 -   Clinical Heart Disease Dataset
 
+Note: PTB-XL dataset is provided by PhysioNet under its original license.
+This repository includes metadata files only.
+Users must comply with the original dataset licensing terms.
+
 Datasets
 The clinical risk model uses a combined dataset (~5,000+ rows) assembled from multiple public sources to improve generalizability:
 DatasetSourceContributionUCI Heart DiseaseCleveland ClinicCore clinical features (303 samples)Fedesoriano Heart Failure PredictionKaggleAdditional clinical recordsCardiovascular DiseaseSulianova, KaggleSubsampled for class balanceStatlog HeartUCI RepositorySupplementary clinical dataPTB-XLPhysioNetECG metadata for MI detection
