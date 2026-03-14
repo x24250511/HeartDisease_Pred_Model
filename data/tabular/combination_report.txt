@@ -1,6 +1,6 @@
-=================================================================
+==============================================================
 STEP 1: Loading your original dataset
-=================================================================
+==============================================================
   Loaded: 920 rows, 16 columns
   Sources: {'Cleveland': 304, 'Hungary': 293, 'VA Long Beach': 200, 'Switzerland': 123}
   After encoding: 920 rows
@@ -81,5 +81,4 @@ STEP 6: Final validation and export
   FILES SAVED:
     → heart_disease_combined_numeric.csv  (ML-ready)
     → heart_disease_combined_real.csv     (readable)
-
-✅ Done!
+ Done!
