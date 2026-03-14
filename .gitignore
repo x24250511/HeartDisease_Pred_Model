@@ -1,0 +1,21 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+data/ptb_xl/records100/
+
+# Local scripts and experiments
+combine_real_data.py
+ml/
+scripts/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Models
+app/models/*.pth
+app/models/*.pkl
