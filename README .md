@@ -127,7 +127,7 @@ Heart_disease_CML/
 ├── data/
 ├── requirements.txt
 └── README.md
-
+NOTE: 2 Files of PTBXL model inside JupyterNB both works on different targets and features and also got different accuracy my model
 ------------------------------------------------------------------------
 
 
