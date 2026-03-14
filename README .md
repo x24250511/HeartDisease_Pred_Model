@@ -1,5 +1,4 @@
-# ❤️ Heart Disease Prediction System (Multimodal ML)
-
+# Heart Disease Prediction System (Multimodal ML)
 ## Project Overview
 
 This project is a multimodal heart disease prediction system built using
@@ -23,6 +22,50 @@ clinical workflows.
 
 ## System Architecture
 
+                    ┌──────────────────────┐
+                    │   ECG Image Upload   │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │   CNN (ResNet18)     │
+                    │ Normal vs Abnormal   │
+                    └──────────┬───────────┘
+                               │
+               ┌───────────────┴───────────────┐
+               │                               │
+               ▼                               ▼
+        ┌──────────────┐                ┌─────────────────┐
+        │   NORMAL     │                │   ABNORMAL      │
+        │  (Stop Here) │                └────────┬────────┘
+        └──────────────┘                         │
+                                                 ▼
+                                     ┌──────────────────────┐
+                                     │  PTB-XL (XGBoost)    │
+                                     │    MI vs NON-MI      │
+                                     └──────────┬───────────┘
+                                                │
+                                                ▼
+                                    ┌───────────────────────┐
+                                    │  Clinical Risk Model  │
+                                    │   (Random Forest)     │
+                                    └──────────┬────────────┘
+                                               │
+                                               ▼
+                                    ┌───────────────────────┐
+                                    │     Fusion Engine     │
+                                    │ Rule-Based Decision   │
+                                    └──────────┬────────────┘
+                                               │
+                                               ▼
+                                    ┌───────────────────────┐
+                                    │ Final Output:         │
+                                    │ NORMAL                │
+                                    │ ABNORMAL_MONITOR      │
+                                    │ POSSIBLE_MI           │
+                                    │ HIGH_RISK_MI          │
+                                    └───────────────────────┘
+
 ### 1️⃣ ECG Image Model (CNN)
 
 -   Model: ResNet18 (PyTorch)
@@ -40,7 +83,7 @@ If ECG is abnormal → further analysis continues
 ### 2️⃣ MI Detector (XGBoost)
 
 Framework: XGBoost
-Input: PTB-XL dataset tabular metadata
+Input: PTB-XL structured metadata (no raw waveform signals used)
 Task: Binary MI detection
 Note: A critical data leakage bug was identified and fixed — an mi_likelihood feature was essentially reading the label directly, producing artificially inflated accuracy. This was audited and removed.
 
@@ -74,11 +117,19 @@ final structured decision
 
 ## Folder Structure
 
-Heart_disease_CML/ │ ├── app/ │ ├── models/ │ ├── fusion/ │ ├── utils/ │
-└── main.py │ ├── Jupyter_NB/ ├── data/ ├──
-requirements.txt └── README.md
+Heart_disease_CML/
+├── app/
+│   ├── models/
+│   ├── fusion/
+│   ├── utils/
+│   └── main.py
+├── Jupyter_NB/
+├── data/
+├── requirements.txt
+└── README.md
 
 ------------------------------------------------------------------------
+
 
 ## How to Run
 
@@ -100,17 +151,25 @@ Open browser: http://127.0.0.1:8000/docs
 
 ## Datasets Used
 
--   ECG Image Dataset (\~179k images)
--   PTB-XL Dataset (PhysioNet)
--   Clinical Heart Disease Dataset
+--ECG Image Dataset (~179k images)
 
-Note: PTB-XL dataset is provided by PhysioNet under its original license.
+--PTB-XL Dataset (PhysioNet)
+
+--Clinical Heart Disease Datasets (multiple public sources)
+
+--PTB-XL
+PTB-XL is provided by PhysioNet under its original license.
 This repository includes metadata files only.
-Users must comply with the original dataset licensing terms.
+Users must comply with the original dataset licensing terms when using PTB-XL.
+Source: https://physionet.org/content/ptb-xl/
 
-Datasets
-The clinical risk model uses a combined dataset (~5,000+ rows) assembled from multiple public sources to improve generalizability:
-DatasetSourceContributionUCI Heart DiseaseCleveland ClinicCore clinical features (303 samples)Fedesoriano Heart Failure PredictionKaggleAdditional clinical recordsCardiovascular DiseaseSulianova, KaggleSubsampled for class balanceStatlog HeartUCI RepositorySupplementary clinical dataPTB-XLPhysioNetECG metadata for MI detection
+--Clinical Risk Dataset (Combined)
+The clinical risk model was trained on a combined dataset (~5,000+ rows) assembled from multiple public sources to improve generalizability:
+1.UCI Heart Disease (Cleveland Clinic) – Core clinical features (~303 samples)
+2.Statlog Heart Dataset (UCI Repository) – Supplementary clinical records
+3.Heart Failure Prediction (Kaggle – fedesoriano) – Additional labeled samples
+4.Cardiovascular Disease Dataset (Kaggle – sulianova) – Subsampled for class balance
+
 Combining these datasets improved Random Forest 5-fold cross-validation accuracy from ~77% (original UCI only) to ~87.5%.
 ------------------------------------------------------------------------
 
@@ -118,7 +177,7 @@ Combining these datasets improved Random Forest 5-fold cross-validation accuracy
 
 -   High-performance ECG classifier (\~97% accuracy)
 -   Balanced MI detection using XGBoost
--   Risk-aware tabular model (\~85% accuracy)
+-   Risk-aware tabular model (\~87.5% accuracy)
 -   Multimodal fusion architecture
 -   API ready for cloud deployment
 
